@@ -20,7 +20,7 @@ export class Game {
 				this.HandSize = 6;
 		}
 		this.Stack = new CardStack();
-		let slotsBuilder: CardStack[] = [];
+		const slotsBuilder: CardStack[] = [];
 		for (const keyString in Direction) {
 			const key = Number(keyString);
 			if (isNaN(key)) { continue; }

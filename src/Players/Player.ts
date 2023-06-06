@@ -6,15 +6,19 @@ export abstract class Player {
 		this.hand = [];
 	}
 
-	public async play(game: Game): Promise<void> {
+	public play(game: Game): Promise<void> {
 		while (this.hand.length < game.HandSize) {
 			try {
 				this.hand.push(game.Stack.pop() as Card);
-			} catch (e) {
+			} catch (_) {
 				break;
 			}
 		}
 		this.hand.sort((a, b) => a.Value - b.Value);
+
+		return new Promise((resolve) => {
+			resolve();
+		});
 	}
 	protected matches(slot: CardStack): Card[] {
 		const top = slot.peek();
