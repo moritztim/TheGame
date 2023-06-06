@@ -1,0 +1,4 @@
+{
+  "deno.enable": true, // enables extension
+  "deno.lint": true // inline deno lint diagnostics, requires `deno.unstable`
+}
