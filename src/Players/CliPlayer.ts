@@ -4,6 +4,9 @@ import { sep } from "https://deno.land/std@0.167.0/path/mod.ts";
 // types
 
 
+/**
+ * A Command Line Interface to play the game.
+ */
 export class CliPlayer extends Player {
 	private encoder: TextEncoder = new TextEncoder();
 
@@ -39,7 +42,8 @@ export class CliPlayer extends Player {
 		});
 	}
 
-	private printAvailables<T extends Object>(subjects: T[], game: Game, toString: (subject: T) => string = (subject: T) => subject.toString()): void {
+	/** Prints the given subjects, highlighting the ones that are available to play. */
+	private printAvailables<T extends Object>(subjects: T[], game: Game, toString: (subject: T) => string = (subject: T) => subject.toString()): void { //TODO: naming
 		let availables: T[];
 		if (subjects.every(subject => subject instanceof Card)) {
 			availables = this.playableCards(game) as unknown as T[];
@@ -57,10 +61,14 @@ export class CliPlayer extends Player {
 		});
 	}
 
-	private static point(direction: Direction): string {
+	/**
+	 * @returns The pointing emoji for the given direction.
+	 */
+	private static point(direction: Direction): '👆' | '👇' {
 		return direction === Direction.Up ? '👆' : '👇';
 	}
 
+	/** Encodes and prints to stdout. */
 	private print(message: string): void {
 		Deno.stdout.writeSync(this.encoder.encode(message));
 	}
