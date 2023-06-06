@@ -1,8 +1,16 @@
 import { CardStack, Player, Direction } from './mod.ts';
+
+/**
+ * The Game
+ */
 export class Game {
+	/** Maximum player count */
 	public static readonly MAX_PLAYERS = 5;
+	/** Cards each player starts each round with (if there's enough cards in the @see Stack) */
 	public readonly HandSize: number;
+	/** Stack of cards to draw from */
 	public Stack: CardStack;
+	/** Slots to play cards on */
 	public Slots: [CardStack, CardStack, CardStack, CardStack];
 	private players: Player[];
 
@@ -37,6 +45,7 @@ export class Game {
 		return this.players;
 	}
 
+	/** Play an entire game */
 	public play(): void {
 		for (const player of this.players) {
 			player.play(this);
