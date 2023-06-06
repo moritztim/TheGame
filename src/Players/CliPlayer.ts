@@ -8,6 +8,7 @@ import { sep } from "https://deno.land/std@0.167.0/path/mod.ts";
  * A Command Line Interface to play the game.
  */
 export class CliPlayer extends Player {
+	private static NEW_LINE: string = Deno.build.os === 'windows' ? '\r\n' : '\n';
 	private encoder: TextEncoder = new TextEncoder();
 
 	constructor() {
@@ -16,14 +17,14 @@ export class CliPlayer extends Player {
 
 	public override play(game: Game): Promise<void> {
 		super.play(game);
-		this.print(sep);
-		this.print('Slots' + sep);
+		this.print(CliPlayer.NEW_LINE);
+		this.print('Slots' + CliPlayer.NEW_LINE);
 		game.Slots.forEach((slot) => {
 			const digits = Card.MAX_VALUE.toString().length;
 			this.print(`${' '.repeat(digits - 1)}${CliPlayer.point(slot.Direction as Direction)}${' '.repeat(digits - 1)}`);
 		});
 
-		this.print(sep);
+		this.print(CliPlayer.NEW_LINE);
 		game.Slots.forEach((slot) => {
 			this.printAvailables<CardStack>([slot], game, (slot) => {
 				const top = slot.peek();
@@ -31,12 +32,11 @@ export class CliPlayer extends Player {
 			});
 		});
 
-		this.print(sep);
-		this.print(`${game.Stack.length} cards left in the stack.` + sep);
-
-		this.print('Your hand:' + sep);
+		this.print(CliPlayer.NEW_LINE);
+		this.print(`${game.Stack.length} cards left in the stack.` + CliPlayer.NEW_LINE);
+		this.print('Your hand:' + CliPlayer.NEW_LINE);
 		this.printAvailables<Card>(this.hand, game);
-		this.print(sep);
+		this.print(CliPlayer.NEW_LINE);
 		return new Promise((resolve) => {
 			resolve();
 		});
