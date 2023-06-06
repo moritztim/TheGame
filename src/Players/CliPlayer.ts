@@ -11,7 +11,7 @@ export class CliPlayer extends Player {
 		super();
 	}
 
-	public override async play(game: Game): Promise<void> {
+	public override play(game: Game): Promise<void> {
 		super.play(game);
 		this.print(CliPlayer.NEW_LINE);
 		this.print('Slots' + CliPlayer.NEW_LINE);
@@ -34,7 +34,9 @@ export class CliPlayer extends Player {
 		this.print('Your hand:' + CliPlayer.NEW_LINE);
 		this.printAvailables<Card>(this.hand, game);
 		this.print(CliPlayer.NEW_LINE);
-		return;
+		return new Promise((resolve) => {
+			resolve();
+		});
 	}
 
 	private printAvailables<T extends Object>(subjects: T[], game: Game, toString: (subject: T) => string = (subject: T) => subject.toString()): void {

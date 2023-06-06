@@ -9,7 +9,7 @@ import { EmptyStackError } from "./mod.ts";
 export class Stack<T> {
 	public get length(): number { return this.items.length; }
 	private _items: T[] = [];
-	private get items(): T[] { if (this._items != undefined) { return this._items; } else { throw new EmptyStackError(); }; }
+	private get items(): T[] { if (this._items != undefined) { return this._items; } else { throw new EmptyStackError() } }
 	private set items(items: T[]) { this._items = items; }
 	constructor(items: T[] = []) {
 		this.items = items;
