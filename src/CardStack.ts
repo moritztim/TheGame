@@ -23,12 +23,12 @@ export class CardStack extends Stack<Card> {
 
 	/** Is this a Slot? */
 	public get IsSlot(): boolean {
-		return this.Direction !== undefined;
+		return !this.IsDrawPile
 	}
 
 	/** Is this a Draw Pile? */
 	public get IsDrawPile(): boolean {
-		return !this.IsSlot();
+		return this.Direction == undefined;
 	}
 
 	public match(item: Card) {
