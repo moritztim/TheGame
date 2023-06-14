@@ -15,7 +15,7 @@ export class Game {
 	private players: Player[];
 
 	constructor(players: Player[]) {
-		if (players.length > Game.MAX_PLAYERS) { throw new Error(`Player limit (${Game.MAX_PLAYERS}) exceeded`); }
+		if (players.length > Game.MAX_PLAYERS) { throw new Error(`Player limit (${Game.MAX_PLAYERS}) exceeded`); } // prevent overfill
 		this.players = players;
 		switch (players.length) {
 			case 1:
