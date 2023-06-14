@@ -6,7 +6,7 @@ export class EmptyStackError extends Error {
 }
 export class IllegalStackOperationError extends Error {
 	constructor(operation: string, reason?: string) {
-		super(`Illegal to ${operation} this stack${reason != undefined ? `because ${reason}` : ''} `);
+		super(`Illegal to ${operation} this stack${reason != undefined ? ` because ${reason}` : ''} `);
 	}
 }
 export class CardMatchError extends Error {
