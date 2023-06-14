@@ -11,14 +11,14 @@ export class CardStack extends Stack<Card> {
 	public readonly Direction?: Direction;
 
 	constructor(items: Card[] = [], Direction?: Direction) {
-		if (!IsSlot && items.length === 0) { // If it's not a slot and it's empty
-			for (let i = Card.MIN_VALUE; i <= Card.MAX_VALUE; i++) {
-				items.push(new Card(i));
-			} // fill it with cards
-			items.sort(() => Math.random() - 0.5);
-		} // otherwise leave it empty, as the players will place cards.
 		super(items);
 		this.Direction = Direction;
+		if (!this.IsSlot && this.items.length === 0) { // If it's not a slot and it's empty
+			for (let i = Card.MIN_VALUE; i <= Card.MAX_VALUE; i++) {
+				this.items.push(new Card(i));
+			} // fill it with cards
+			this.items.sort(() => Math.random() - 0.5);
+		} // otherwise leave it empty, as the players will place cards.
 	}
 
 	/** Is this a Slot? */
@@ -32,7 +32,7 @@ export class CardStack extends Stack<Card> {
 	}
 
 	public match(item: Card) {
-		if (this.!IsSlot) { throw new IllegalStackOperationError('match'); } // No peeking, no matching
+		if (!this.isSlot) { throw new IllegalStackOperationError('match'); } // No peeking, no matching
 		const top = this.peek()?.Value;
 		if (top === undefined) {
 			return; // If the Slot is empty, any card can be placed
@@ -51,7 +51,7 @@ export class CardStack extends Stack<Card> {
 	}
 
 	public override push(item: Card): number {
-		if (this.!IsSlot) {
+		if (!this.isSlot) {
 			throw new IllegalStackOperationError('push'); // Can't push onto the Draw Pile
 		}
 		this.match(item); // Continue if card matches
@@ -66,7 +66,7 @@ export class CardStack extends Stack<Card> {
 	}
 
 	public override peek(): Card {
-		if (this.!IsSlot) {
+		if (!this.isSlot) {
 			throw new IllegalStackOperationError('peek'); // Can't peak the Draw Pile
 		}
 		return super.peek();
