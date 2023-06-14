@@ -6,7 +6,7 @@ import { Card, Stack, IllegalStackOperationError, CardMatchError } from './mod.t
 export class CardStack extends Stack<Card> {
 	/**
 	 * Direction to dictate the order of the cards
-	 * Not applicable for Slot (therefore this can be used to tell a Stack from a Slot)
+	 * Not applicable for Slot (therefore this can be used to tell a Draw Pile from a Slot)
 	*/
 	public readonly Direction?: Direction;
 
@@ -25,7 +25,7 @@ export class CardStack extends Stack<Card> {
 		if (this.Direction === undefined) { throw new IllegalStackOperationError('match'); } // No peeking, no matching
 		const top = this.peek()?.Value;
 		if (top === undefined) {
-			return; // If the stack is empty, any card can be placed
+			return; // If the Slot is empty, any card can be placed
 		}
 		/** Prerequirement */
 		const inBounds = this.Direction === Direction.Up ? top < Card.MAX_VALUE : top > Card.MIN_VALUE
@@ -42,7 +42,7 @@ export class CardStack extends Stack<Card> {
 
 	public override push(item: Card): number {
 		if (this.Direction === undefined) {
-			throw new IllegalStackOperationError('push'); // Can't push onto the Stack
+			throw new IllegalStackOperationError('push'); // Can't push onto the Draw Pile
 		}
 		this.match(item); // Continue if card matches
 		return super.push(item);
@@ -56,7 +56,7 @@ export class CardStack extends Stack<Card> {
 	}
 	public override peek(): Card {
 		if (this.Direction === undefined) {
-			throw new IllegalStackOperationError('peek'); // Can't peak the Stack
+			throw new IllegalStackOperationError('peek'); // Can't peak the Draw Pile
 		}
 		return super.peek();
 	}

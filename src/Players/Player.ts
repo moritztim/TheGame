@@ -9,7 +9,7 @@ export abstract class Player {
 	public play(game: Game): Promise<void> {
 		while (this.hand.length < game.HandSize) {
 			try {
-				this.hand.push(game.Stack.pop() as Card);
+				this.hand.push(game.DrawPile.pop() as Card);
 			} catch (_) {
 				break;
 			}

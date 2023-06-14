@@ -8,8 +8,8 @@ export class Game {
 	public static readonly MAX_PLAYERS = 5;
 	/** Cards each player starts each round with (if there's enough cards in the @see Stack) */
 	public readonly HandSize: number;
-	/** Stack of cards to draw from */
-	public Stack: CardStack;
+	/** Stack to draw from */
+	public DrawPile: CardStack;
 	/** Slots to play cards on */
 	public Slots: [CardStack, CardStack, CardStack, CardStack];
 	private players: Player[];
@@ -27,7 +27,7 @@ export class Game {
 			default:
 				this.HandSize = 6;
 		}
-		this.Stack = new CardStack();
+		this.DrawPile = new CardStack();
 		const slotsBuilder: CardStack[] = [];
 		for (const keyString in Direction) {
 			const key = Number(keyString);
