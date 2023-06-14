@@ -11,7 +11,7 @@ export class CardStack extends Stack<Card> {
 	public readonly Direction?: Direction;
 
 	constructor(items: Card[] = [], Direction?: Direction) {
-		if (Direction === undefined && items.length === 0) { // If it's not a slot and it's empty
+		if (!IsSlot && items.length === 0) { // If it's not a slot and it's empty
 			for (let i = Card.MIN_VALUE; i <= Card.MAX_VALUE; i++) {
 				items.push(new Card(i));
 			} // fill it with cards
@@ -21,8 +21,18 @@ export class CardStack extends Stack<Card> {
 		this.Direction = Direction;
 	}
 
+	/** Is this a Slot? */
+	public get IsSlot(): boolean {
+		return this.Direction !== undefined;
+	}
+
+	/** Is this a Draw Pile? */
+	public get IsDrawPile(): boolean {
+		return !this.IsSlot();
+	}
+
 	public match(item: Card) {
-		if (this.Direction === undefined) { throw new IllegalStackOperationError('match'); } // No peeking, no matching
+		if (this.!IsSlot) { throw new IllegalStackOperationError('match'); } // No peeking, no matching
 		const top = this.peek()?.Value;
 		if (top === undefined) {
 			return; // If the Slot is empty, any card can be placed
@@ -41,7 +51,7 @@ export class CardStack extends Stack<Card> {
 	}
 
 	public override push(item: Card): number {
-		if (this.Direction === undefined) {
+		if (this.!IsSlot) {
 			throw new IllegalStackOperationError('push'); // Can't push onto the Draw Pile
 		}
 		this.match(item); // Continue if card matches
@@ -49,13 +59,14 @@ export class CardStack extends Stack<Card> {
 	}
 
 	public override pop(): Card {
-		if (this.Direction != undefined) {
+		if (this.IsSlot) {
 			throw new IllegalStackOperationError('pop'); // Can't steal from a slot
 		}
 		return super.pop();
 	}
+
 	public override peek(): Card {
-		if (this.Direction === undefined) {
+		if (this.!IsSlot) {
 			throw new IllegalStackOperationError('peek'); // Can't peak the Draw Pile
 		}
 		return super.peek();
