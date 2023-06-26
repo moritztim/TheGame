@@ -42,7 +42,10 @@ export class CliPlayer extends Player {
 	}
 
 	/** Prints the given subjects, highlighting the ones that are available to play. */
-	private printAvailables<T extends Object>(subjects: T[], game: Game, toString: (subject: T) => string = (subject: T) => subject.toString()): void { //TODO: naming
+	private printAvailables< //TODO: naming
+		// deno-lint-ignore ban-types
+		T extends Object
+	>(subjects: T[], game: Game, toString: (subject: T) => string = (subject: T) => subject.toString()): void {
 		let availables: T[];
 		if (subjects.every(subject => subject instanceof Card)) {
 			availables = this.playableCards(game) as unknown as T[];
