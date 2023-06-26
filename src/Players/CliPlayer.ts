@@ -1,6 +1,5 @@
 import { Card, CardStack, Direction, Game, Player } from '../mod.ts';
 import { brightBlack } from "https://deno.land/std@0.182.0/fmt/colors.ts";
-import { sep } from "https://deno.land/std@0.167.0/path/mod.ts";
 // types
 
 
