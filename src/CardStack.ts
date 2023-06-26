@@ -32,7 +32,7 @@ export class CardStack extends Stack<Card> {
 	}
 
 	public match(item: Card) {
-		if (!this.isSlot) { throw new IllegalStackOperationError('match'); } // No peeking, no matching
+		if (!this.IsSlot) { throw new IllegalStackOperationError('match'); } // No peeking, no matching
 		const top = this.peek()?.Value;
 		if (top === undefined) {
 			return; // If the Slot is empty, any card can be placed
@@ -51,7 +51,7 @@ export class CardStack extends Stack<Card> {
 	}
 
 	public override push(item: Card): number {
-		if (!this.isSlot) {
+		if (!this.IsSlot) {
 			throw new IllegalStackOperationError('push'); // Can't push onto the Draw Pile
 		}
 		this.match(item); // Continue if card matches
@@ -66,7 +66,7 @@ export class CardStack extends Stack<Card> {
 	}
 
 	public override peek(): Card {
-		if (!this.isSlot) {
+		if (!this.IsSlot) {
 			throw new IllegalStackOperationError('peek'); // Can't peak the Draw Pile
 		}
 		return super.peek();
