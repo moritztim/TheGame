@@ -19,17 +19,17 @@ export class CliPlayer extends Player {
 	public override play(game: Game): Promise<void> {
 		super.play(game);
 
-		this.print(CliPlayer.NEW_LINE);
-		this.print('Slots' + CliPlayer.NEW_LINE);
+		let out = '';
+
+		out += CliPlayer.NEW_LINE;
+		out += 'Slots' + CliPlayer.NEW_LINE;
 		game.Slots.forEach((slot) => {
 			const digits = Card.MAX_VALUE.toString().length; // The amount of space to reserve for each slot
-			this.print(
-				`${' '.repeat(digits - 1)}${CliPlayer.point(slot.Direction)}${' '.repeat(digits - 1)}`
-			); // Pointing emoji with padding
+			out += `${' '.repeat(digits - 1)}${CliPlayer.point(slot.Direction)}${' '.repeat(digits - 1)}` // Pointing emoji with padding
 		});
 
-		this.print(CliPlayer.NEW_LINE);
-		this.printAvailables<Slot>(
+		out += CliPlayer.NEW_LINE;
+		out += this.highlightAvailables<Slot>(
 			game.Slots,
 			game,
 			(slot) => {
@@ -38,21 +38,26 @@ export class CliPlayer extends Player {
 			}
 		);
 
-		this.print(CliPlayer.NEW_LINE);
-		this.print(`${game.DrawPile.length} cards left in the draw pile.` + CliPlayer.NEW_LINE);
-		this.print('Your hand:' + CliPlayer.NEW_LINE);
-		this.printAvailables<Card>(this.hand, game);
-		this.print(CliPlayer.NEW_LINE);
+		out += CliPlayer.NEW_LINE;
+		out += `${game.DrawPile.length} cards left in the draw pile.` + CliPlayer.NEW_LINE;
+		out += 'Your hand:' + CliPlayer.NEW_LINE;
+		out += this.highlightAvailables<Card>(this.hand, game);
+		out += CliPlayer.NEW_LINE;
+		
+		this.print(out);
+		
 		return new Promise((resolve) => {
 			resolve();
 		});
 	}
 
-	/** Prints the given subjects, highlighting the ones that are available to play. */
-	private printAvailables< //TODO: naming
+	/** Highlights the subjects that are available to play. */
+	private highlightAvailables<
 		// deno-lint-ignore ban-types
 		T extends Object
-	>(subjects: T[], game: Game, toString: (subject: T) => string = (subject: T) => subject.toString()): void {
+	>(subjects: T[], game: Game, toString: (subject: T) => string = (subject: T) => subject.toString()): string {
+		let result = '';
+		
 		let availables: T[];
 		if (subjects.every(subject => subject instanceof Card)) { // if we're printing cards
 			availables = this.playableCards(game) as unknown as T[];
@@ -63,11 +68,13 @@ export class CliPlayer extends Player {
 		subjects.forEach((subject) => {
 			const str = toString(subject) // call the given toString function
 			if (availables.includes(subject)) {
-				this.print(str); // print it normally
+				result += str; // highlight
 			} else {
-				this.print(brightBlack(str)); // print it grayed out
+				result += brightBlack(str); // gray out
 			}
 		});
+
+		return result;
 	}
 
 	/**
