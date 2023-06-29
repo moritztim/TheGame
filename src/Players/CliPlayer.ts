@@ -8,6 +8,8 @@ import { brightBlack } from "https://deno.land/std@0.182.0/fmt/colors.ts";
  */
 export class CliPlayer extends Player {
 	private static NEW_LINE: string = Deno.build.os === 'windows' ? '\r\n' : '\n';
+
+	/** Encoder for printing */
 	private encoder: TextEncoder = new TextEncoder();
 
 	constructor() {
@@ -16,19 +18,26 @@ export class CliPlayer extends Player {
 
 	public override play(game: Game): Promise<void> {
 		super.play(game);
+
 		this.print(CliPlayer.NEW_LINE);
 		this.print('Slots' + CliPlayer.NEW_LINE);
 		game.Slots.forEach((slot) => {
-			const digits = Card.MAX_VALUE.toString().length;
-			this.print(`${' '.repeat(digits - 1)}${CliPlayer.point(slot.Direction as Direction)}${' '.repeat(digits - 1)}`);
+			const digits = Card.MAX_VALUE.toString().length; // The amount of space to reserve for each slot
+			this.print(
+				`${' '.repeat(digits - 1)}${CliPlayer.point(slot.Direction as Direction)}${' '.repeat(digits - 1)}`
+			); // Pointing emoji with padding
 		});
 
 		this.print(CliPlayer.NEW_LINE);
 		game.Slots.forEach((slot) => {
-			this.printAvailables<CardStack>([slot], game, (slot) => {
-				const top = slot.peek();
-				return top?.toString() ?? `[${' '.repeat(Card.MAX_VALUE.toString().length)}]`;
-			});
+			this.printAvailables<CardStack>(
+				[slot],
+				game,
+				(slot) => {
+					const top = slot.peek();
+					return top?.toString() ?? `[${' '.repeat(Card.MAX_VALUE.toString().length)}]`;
+				}
+			);
 		});
 
 		this.print(CliPlayer.NEW_LINE);
@@ -47,18 +56,18 @@ export class CliPlayer extends Player {
 		T extends Object
 	>(subjects: T[], game: Game, toString: (subject: T) => string = (subject: T) => subject.toString()): void {
 		let availables: T[];
-		if (subjects.every(subject => subject instanceof Card)) {
+		if (subjects.every(subject => subject instanceof Card)) { // if we're printing cards
 			availables = this.playableCards(game) as unknown as T[];
-		} else if (subjects.every(subject => subject instanceof CardStack)) {
+		} else if (subjects.every(subject => subject instanceof CardStack)) { // if we're printing slots
 			availables = this.pushableSlots(game) as unknown as T[];
 		}
 
 		subjects.forEach((subject) => {
-			const str = toString(subject)
+			const str = toString(subject) // call the given toString function
 			if (availables.includes(subject)) {
-				this.print(str);
+				this.print(str); // print it normally
 			} else {
-				this.print(brightBlack(str));
+				this.print(brightBlack(str)); // print it grayed out
 			}
 		});
 	}
