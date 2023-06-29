@@ -39,7 +39,7 @@ export class CliPlayer extends Player {
 		);
 
 		this.print(CliPlayer.NEW_LINE);
-		this.print(`${game.DrawPile.length} cards left in the stack.` + CliPlayer.NEW_LINE);
+		this.print(`${game.DrawPile.length} cards left in the draw pile.` + CliPlayer.NEW_LINE);
 		this.print('Your hand:' + CliPlayer.NEW_LINE);
 		this.printAvailables<Card>(this.hand, game);
 		this.print(CliPlayer.NEW_LINE);
