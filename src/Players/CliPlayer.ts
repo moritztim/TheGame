@@ -29,16 +29,14 @@ export class CliPlayer extends Player {
 		});
 
 		this.print(CliPlayer.NEW_LINE);
-		game.Slots.forEach((slot) => {
-			this.printAvailables<CardStack>(
-				[slot],
-				game,
-				(slot) => {
-					const top = slot.peek();
-					return top?.toString() ?? `[${' '.repeat(Card.MAX_VALUE.toString().length)}]`;
-				}
-			);
-		});
+		this.printAvailables<CardStack>(
+			game.Slots,
+			game,
+			(slot) => {
+				const top = slot.peek();
+				return top?.toString() ?? `[${' '.repeat(Card.MAX_VALUE.toString().length)}]`;
+			}
+		);
 
 		this.print(CliPlayer.NEW_LINE);
 		this.print(`${game.DrawPile.length} cards left in the stack.` + CliPlayer.NEW_LINE);
