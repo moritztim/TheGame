@@ -1,4 +1,4 @@
-import { Card, CardStack } from './mod.ts';
+import { Card, Stack } from './mod.ts';
 export class EmptyStackError extends Error {
 	constructor() {
 		super('Stack is empty');
@@ -10,7 +10,7 @@ export class IllegalStackOperationError extends Error {
 	}
 }
 export class CardMatchError extends Error {
-	constructor(card: Card, stack: CardStack) {
+	constructor(card: Card, stack: Stack<Card>) {
 		super(`Cannot match ${card} to ${stack.peek()}`);
 	}
 }

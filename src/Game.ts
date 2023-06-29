@@ -1,4 +1,4 @@
-import { CardStack, Player, Direction } from './mod.ts';
+import { DrawPile, Player, Direction, Slot } from './mod.ts';
 
 /**
  * The Game
@@ -18,9 +18,9 @@ export class Game {
 	/** Cards each player starts each round with (if there's enough cards in the @see Stack) */
 	public readonly HandSize: number;
 	/** Stack to draw from */
-	public DrawPile: CardStack;
+	public DrawPile: DrawPile;
 	/** Slots to play cards on */
-	public Slots: [CardStack, CardStack, CardStack, CardStack];
+	public Slots: [Slot, Slot, Slot, Slot];
 	private players: Player[];
 
 	constructor(players: Player[]) {
@@ -28,18 +28,18 @@ export class Game {
 		this.players = players;
 		this.HandSize = Game.HAND_SIZES.get(players.length) || Game.HAND_SIZES.get(Game.HAND_SIZES.size) as number // get the hand size for the player count (or the last one if it doesn't exist)
 
-		this.DrawPile = new CardStack();
-		const slotsBuilder: CardStack[] = [];
+		this.DrawPile = new DrawPile();
+		const slotsBuilder: Slot[] = [];
 		for (const keyString in Direction) {
 			const key = Number(keyString);
 			if (isNaN(key)) { continue; }
 			let i = 2;
 			while (i--) {
-				slotsBuilder.push(new CardStack([], key));
+				slotsBuilder.push(new Slot([], key));
 			}
 		}
 
-		this.Slots = slotsBuilder as [CardStack, CardStack, CardStack, CardStack];
+		this.Slots = slotsBuilder as [Slot, Slot, Slot, Slot];
 	}
 
 	public get Players(): Player[] {

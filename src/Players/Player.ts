@@ -1,4 +1,4 @@
-import { Card, CardMatchError, CardStack, Game } from "../mod.ts";
+import { Card, CardMatchError, Slot, Game } from "../mod.ts";
 export abstract class Player {
 	protected hand: Card[];
 
@@ -20,7 +20,7 @@ export abstract class Player {
 			resolve();
 		});
 	}
-	protected matches(slot: CardStack): Card[] {
+	protected matches(slot: Slot): Card[] {
 		const top = slot.peek();
 		if (top == null) {
 			return this.hand;
@@ -40,10 +40,10 @@ export abstract class Player {
 		);
 	}
 
-	protected pushableSlots(game: Game): CardStack[] {
+	protected pushableSlots(game: Game): Slot[] {
 		return game.Slots.filter((slot) => this.matches(slot).length > 0);
 	}
-	protected playableCards(game: Game, pushableSlots?: CardStack[]): Card[] {
+	protected playableCards(game: Game, pushableSlots?: Slot[]): Card[] {
 		pushableSlots ??= this.pushableSlots(game);
 		return pushableSlots.flatMap((slot) => this.matches(slot));
 	}

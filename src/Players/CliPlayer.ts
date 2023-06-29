@@ -1,4 +1,4 @@
-import { Card, CardStack, Direction, Game, Player } from '../mod.ts';
+import { Card, Slot, Direction, Game, Player } from '../mod.ts';
 import { brightBlack } from "https://deno.land/std@0.182.0/fmt/colors.ts";
 // types
 
@@ -24,12 +24,12 @@ export class CliPlayer extends Player {
 		game.Slots.forEach((slot) => {
 			const digits = Card.MAX_VALUE.toString().length; // The amount of space to reserve for each slot
 			this.print(
-				`${' '.repeat(digits - 1)}${CliPlayer.point(slot.Direction as Direction)}${' '.repeat(digits - 1)}`
+				`${' '.repeat(digits - 1)}${CliPlayer.point(slot.Direction)}${' '.repeat(digits - 1)}`
 			); // Pointing emoji with padding
 		});
 
 		this.print(CliPlayer.NEW_LINE);
-		this.printAvailables<CardStack>(
+		this.printAvailables<Slot>(
 			game.Slots,
 			game,
 			(slot) => {
@@ -56,7 +56,7 @@ export class CliPlayer extends Player {
 		let availables: T[];
 		if (subjects.every(subject => subject instanceof Card)) { // if we're printing cards
 			availables = this.playableCards(game) as unknown as T[];
-		} else if (subjects.every(subject => subject instanceof CardStack)) { // if we're printing slots
+		} else if (subjects.every(subject => subject instanceof Slot)) { // if we're printing slots
 			availables = this.pushableSlots(game) as unknown as T[];
 		}
 
