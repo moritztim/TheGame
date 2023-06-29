@@ -29,16 +29,18 @@ export class Game {
 		this.HandSize = Game.HAND_SIZES.get(players.length) || Game.HAND_SIZES.get(Game.HAND_SIZES.size) as number // get the hand size for the player count (or the last one if it doesn't exist)
 
 		this.DrawPile = new DrawPile();
+
 		const slotsBuilder: Slot[] = [];
-		for (const keyString in Direction) {
+		for (const keyString in Direction) { // for each key in the enum Direction
+			// A little hack to get the actual keys
 			const key = Number(keyString);
 			if (isNaN(key)) { continue; }
+
 			let i = 2;
-			while (i--) {
+			while (i--) { // while i < 0
 				slotsBuilder.push(new Slot([], key));
 			}
 		}
-
 		this.Slots = slotsBuilder as [Slot, Slot, Slot, Slot];
 	}
 
