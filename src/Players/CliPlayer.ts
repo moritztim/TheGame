@@ -16,7 +16,7 @@ export class CliPlayer extends Player {
 		super();
 	}
 
-	public override play(game: Game): Promise<void> {
+	override play(game: Game): Promise<void> {
 		super.play(game);
 
 		let out = '';
@@ -43,9 +43,9 @@ export class CliPlayer extends Player {
 		out += 'Your hand:' + CliPlayer.NEW_LINE;
 		out += this.highlightAvailables<Card>(this.hand, game);
 		out += CliPlayer.NEW_LINE;
-		
+
 		this.print(out);
-		
+
 		return new Promise((resolve) => {
 			resolve();
 		});
@@ -57,7 +57,7 @@ export class CliPlayer extends Player {
 		T extends Object
 	>(subjects: T[], game: Game, toString: (subject: T) => string = (subject: T) => subject.toString()): string {
 		let result = '';
-		
+
 		let availables: T[];
 		if (subjects.every(subject => subject instanceof Card)) { // if we're printing cards
 			availables = this.playableCards(game) as unknown as T[];

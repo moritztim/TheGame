@@ -7,7 +7,7 @@ import { EmptyStackError } from "./mod.ts";
  * The peek() method returns the top element in the stack without removing it.
 */
 export class Stack<T> {
-	public get length(): number { return this.items.length; }
+	get length(): number { return this.items.length; }
 	private _items: T[] = [];
 	protected get items(): T[] { if (this._items != undefined) { return this._items; } else { throw new EmptyStackError() } }
 	private set items(items: T[]) { this._items = items; }
@@ -21,7 +21,7 @@ export class Stack<T> {
 	 * @returns The new length of the stack.
 	 * @see {@link Array.push}
 	 */
-	public push(item: T): number {
+	push(item: T): number {
 		return this.items.push(item);
 	}
 	/**
@@ -29,14 +29,14 @@ export class Stack<T> {
 	 * @returns The top element in the stack.
 	 * @see {@link Array.pop}
 	 */
-	public pop(): T {
+	pop(): T {
 		return this.items.pop() as T;
 	}
 	/**
 	 * Returns the top element in the stack without removing it.
 	 * @returns The top element in the stack.
 	 */
-	public peek(): T {
+	peek(): T {
 		return this.items[this.items.length - 1];
 	}
 }

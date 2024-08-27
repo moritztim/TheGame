@@ -1,10 +1,10 @@
 export class Card extends Object {
 	/** Maximum value of a card */
-	public static readonly MAX_VALUE = 99;
+	static readonly MAX_VALUE = 99;
 	/** Minimum value of a card */
-	public static readonly MIN_VALUE = 2;
+	static readonly MIN_VALUE = 2;
 
-	public readonly Value: number;
+	readonly Value: number;
 
 	constructor(Value: number) {
 		super();
@@ -17,11 +17,11 @@ export class Card extends Object {
 	/**
 	 * @returns a string representation of the card with universal padding
 	 */
-	public override toString(): string {
+	override toString(): string {
 		return `[${this.Value.toString().padStart(Card.MAX_VALUE.toString().length, ' ')}]`; // Pad with spaces to make all cards the same length
 	}
 
-	public override valueOf(): number {
+	override valueOf(): number {
 		return this.Value;
 	}
 }

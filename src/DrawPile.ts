@@ -19,11 +19,11 @@ export class DrawPile extends Stack<Card> {
 		}
 	}
 
-	public override push(_item: Card): number {
+	override push(_item: Card): number {
 		throw new IllegalStackOperationError('push');
 	}
 
-	public override peek(): Card {
+	override peek(): Card {
 		throw new IllegalStackOperationError('peek');
 	}
 }

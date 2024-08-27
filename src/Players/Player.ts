@@ -6,7 +6,7 @@ export abstract class Player {
 		this.hand = [];
 	}
 
-	public play(game: Game): Promise<void> {
+	play(game: Game): Promise<void> {
 		while (this.hand.length < game.HandSize) {
 			try {
 				this.hand.push(game.DrawPile.pop() as Card);

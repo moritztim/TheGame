@@ -4,14 +4,14 @@ export class Slot extends Stack<Card> {
 	/**
 	 * Dictates the order of the cards
 	*/
-	public readonly Direction: Direction;
+	readonly Direction: Direction;
 
-		constructor(items: Card[] = [], Direction: Direction) {
+	constructor(items: Card[] = [], Direction: Direction) {
 		super(items);
 		this.Direction = Direction;
 	}
-	
-	public match(item: Card) {
+
+	match(item: Card) {
 		const top = this.peek()?.Value;
 		if (top === undefined) {
 			return; // If the Slot is empty, any card can be placed
@@ -28,13 +28,13 @@ export class Slot extends Stack<Card> {
 			throw new CardMatchError(item, this);
 		}
 	}
-	
-	public override push(item: Card): number {
+
+	override push(item: Card): number {
 		this.match(item); // Continue if card matches
 		return super.push(item);
 	}
-	
-	public override pop(): Card {
+
+	override pop(): Card {
 		throw new IllegalStackOperationError('pop');
 	}
 }
