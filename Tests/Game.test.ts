@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run
+
 import { Card, CliPlayer, Game } from '../src/mod.ts';
 while (true) {
 	const game = new Game([new CliPlayer()]);
