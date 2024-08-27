@@ -7,19 +7,22 @@ export abstract class Player {
 	}
 
 	play(game: Game): Promise<void> {
-		while (this.hand.length < game.handSize) {
+		this.draw(this.hand.length - game.handSize, game)
+		return new Promise((resolve) => {
+			resolve();
+		});
+	}
+
+	protected draw(cards: number, game: Game) {
+		for (let i = 0; i < cards; i++) {
 			try {
 				this.hand.push(game.drawPile.pop() as Card);
 			} catch (_) {
 				break;
 			}
 		}
-		this.hand.sort((a, b) => a.value - b.value);
-
-		return new Promise((resolve) => {
-			resolve();
-		});
 	}
+
 	protected matches(slot: Slot): Card[] {
 		const top = slot.peek();
 		if (top == null) {
