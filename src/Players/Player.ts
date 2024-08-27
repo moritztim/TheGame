@@ -34,11 +34,11 @@ export abstract class Player {
 				try {
 					slot.match(card);
 					return true;
-				} catch (e) {
-					if (e instanceof CardMatchError) {
+				} catch (error) {
+					if (error instanceof CardMatchError) {
 						return false;
 					}
-					throw e;
+					throw error;
 				}
 			}
 		);
