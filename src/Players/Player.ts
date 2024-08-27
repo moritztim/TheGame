@@ -16,7 +16,7 @@ export abstract class Player {
 	protected draw(cards: number, game: Game) {
 		for (let i = 0; i < cards; i++) {
 			try {
-				this.hand.push(game.drawPile.pop() as Card);
+				this.hand.push(game.drawPile.pop());
 			} catch (_) {
 				break;
 			}
