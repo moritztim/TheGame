@@ -4,24 +4,24 @@ export class Card extends Object {
 	/** Minimum value of a card */
 	static readonly MIN_VALUE = 2;
 
-	readonly Value: number;
+	readonly value: number;
 
-	constructor(Value: number) {
+	constructor(value: number) {
 		super();
-		if (!(Value <= Card.MAX_VALUE && Value >= Card.MIN_VALUE)) { // Out of bounds
-			throw new Error(`Card value must be from ${Card.MIN_VALUE} to ${Card.MAX_VALUE}, recieved ${Value}`);
+		if (!(value <= Card.MAX_VALUE && value >= Card.MIN_VALUE)) { // Out of bounds
+			throw new Error(`Card value must be from ${Card.MIN_VALUE} to ${Card.MAX_VALUE}, recieved ${value}`);
 		}
-		this.Value = Value;
+		this.value = value;
 	}
 
 	/**
 	 * @returns a string representation of the card with universal padding
 	 */
 	override toString(): string {
-		return `[${this.Value.toString().padStart(Card.MAX_VALUE.toString().length, ' ')}]`; // Pad with spaces to make all cards the same length
+		return `[${this.value.toString().padStart(Card.MAX_VALUE.toString().length, ' ')}]`; // Pad with spaces to make all cards the same length
 	}
 
 	override valueOf(): number {
-		return this.Value;
+		return this.value;
 	}
 }

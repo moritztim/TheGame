@@ -7,14 +7,14 @@ export abstract class Player {
 	}
 
 	play(game: Game): Promise<void> {
-		while (this.hand.length < game.HandSize) {
+		while (this.hand.length < game.handSize) {
 			try {
-				this.hand.push(game.DrawPile.pop() as Card);
+				this.hand.push(game.drawPile.pop() as Card);
 			} catch (_) {
 				break;
 			}
 		}
-		this.hand.sort((a, b) => a.Value - b.Value);
+		this.hand.sort((a, b) => a.value - b.value);
 
 		return new Promise((resolve) => {
 			resolve();
@@ -41,7 +41,7 @@ export abstract class Player {
 	}
 
 	protected pushableSlots(game: Game): Slot[] {
-		return game.Slots.filter((slot) => this.matches(slot).length > 0);
+		return game.slots.filter((slot) => this.matches(slot).length > 0);
 	}
 	protected playableCards(game: Game, pushableSlots?: Slot[]): Card[] {
 		pushableSlots ??= this.pushableSlots(game);

@@ -4,24 +4,24 @@ export class Slot extends Stack<Card> {
 	/**
 	 * Dictates the order of the cards
 	*/
-	readonly Direction: Direction;
+	readonly direction: Direction;
 
 	constructor(items: Card[] = [], Direction: Direction) {
 		super(items);
-		this.Direction = Direction;
+		this.direction = Direction;
 	}
 
 	match(item: Card) {
-		const top = this.peek()?.Value;
+		const top = this.peek()?.value;
 		if (top === undefined) {
 			return; // If the Slot is empty, any card can be placed
 		}
 		/** Prerequirement */
-		const inBounds = this.Direction === Direction.Up ? top < Card.MAX_VALUE : top > Card.MIN_VALUE
+		const inBounds = this.direction === Direction.Up ? top < Card.MAX_VALUE : top > Card.MIN_VALUE
 		/** Common legal move */
-		const rightDirection = this.Direction === Direction.Up ? (item.Value > top) : (item.Value < top);
+		const rightDirection = this.direction === Direction.Up ? (item.value > top) : (item.value < top);
 		/** Special rule */
-		const jump = item.Value === top + Number(this.Direction) * 10 // up = 1, down = -1
+		const jump = item.value === top + Number(this.direction) * 10 // up = 1, down = -1
 		if (inBounds && (rightDirection || jump)) {
 			return;
 		} else {

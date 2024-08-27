@@ -1,7 +1,7 @@
 import { Card, CliPlayer, Game } from '../src/mod.ts';
 while (true) {
 	const game = new Game([new CliPlayer()]);
-	game.Slots.forEach((slot) => {
+	game.slots.forEach((slot) => {
 		slot.push(new Card(Math.floor(Math.random() * (Card.MAX_VALUE - Card.MIN_VALUE + 1)) + Card.MIN_VALUE));
 	});
 	game.play();

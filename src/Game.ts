@@ -16,19 +16,19 @@ export class Game {
 	]);
 
 	/** Cards each player starts each round with (if there's enough cards in the @see Stack) */
-	readonly HandSize: number;
+	readonly handSize: number;
 	/** Stack to draw from */
-	DrawPile: DrawPile;
+	drawPile: DrawPile;
 	/** Slots to play cards on */
-	Slots: [Slot, Slot, Slot, Slot];
+	slots: [Slot, Slot, Slot, Slot];
 	private players: Player[];
 
 	constructor(players: Player[]) {
 		if (players.length > Game.MAX_PLAYERS) { throw new Error(`Player limit (${Game.MAX_PLAYERS}) exceeded`); } // prevent overfill
 		this.players = players;
-		this.HandSize = Game.HAND_SIZES.get(players.length) || Game.HAND_SIZES.get(Game.HAND_SIZES.size) as number // get the hand size for the player count (or the last one if it doesn't exist)
+		this.handSize = Game.HAND_SIZES.get(players.length) || Game.HAND_SIZES.get(Game.HAND_SIZES.size) as number // get the hand size for the player count (or the last one if it doesn't exist)
 
-		this.DrawPile = new DrawPile();
+		this.drawPile = new DrawPile();
 
 		const slotsBuilder: Slot[] = [];
 		for (const keyString in Direction) { // for each key in the enum Direction
@@ -41,10 +41,10 @@ export class Game {
 				slotsBuilder.push(new Slot([], key));
 			}
 		}
-		this.Slots = slotsBuilder as [Slot, Slot, Slot, Slot];
+		this.slots = slotsBuilder as [Slot, Slot, Slot, Slot];
 	}
 
-	get Players(): Player[] {
+	get players(): Player[] {
 		return this.players;
 	}
 

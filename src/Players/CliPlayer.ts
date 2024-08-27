@@ -23,14 +23,14 @@ export class CliPlayer extends Player {
 
 		out += CliPlayer.NEW_LINE;
 		out += 'Slots' + CliPlayer.NEW_LINE;
-		game.Slots.forEach((slot) => {
+		game.slots.forEach((slot) => {
 			const digits = Card.MAX_VALUE.toString().length; // The amount of space to reserve for each slot
-			out += `${' '.repeat(digits - 1)}${CliPlayer.point(slot.Direction)}${' '.repeat(digits - 1)}` // Pointing emoji with padding
+			out += `${' '.repeat(digits - 1)}${CliPlayer.point(slot.direction)}${' '.repeat(digits - 1)}` // Pointing emoji with padding
 		});
 
 		out += CliPlayer.NEW_LINE;
 		out += this.highlightAvailables<Slot>(
-			game.Slots,
+			game.slots,
 			game,
 			(slot) => {
 				const top = slot.peek();
@@ -39,7 +39,7 @@ export class CliPlayer extends Player {
 		);
 
 		out += CliPlayer.NEW_LINE;
-		out += `${game.DrawPile.length} cards left in the draw pile.` + CliPlayer.NEW_LINE;
+		out += `${game.drawPile.length} cards left in the draw pile.` + CliPlayer.NEW_LINE;
 		out += 'Your hand:' + CliPlayer.NEW_LINE;
 		out += this.highlightAvailables<Card>(this.hand, game);
 		out += CliPlayer.NEW_LINE;
