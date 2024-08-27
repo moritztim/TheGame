@@ -23,7 +23,7 @@ export abstract class Player {
 	 * @returns A promise that resolves when the turn is done
 	 */
 	play(game: Game): Promise<void> {
-		this.draw(this.hand.length - game.handSize, game)
+		this.draw(game.handSize - this.handSize, game);
 		return new Promise((resolve) => {
 			resolve();
 		});
