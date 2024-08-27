@@ -9,7 +9,7 @@ export class Card extends Object {
 	constructor(value: number) {
 		super();
 		if (!(value <= Card.MAX_VALUE && value >= Card.MIN_VALUE)) { // Out of bounds
-			throw new Error(`Card value must be from ${Card.MIN_VALUE} to ${Card.MAX_VALUE}, recieved ${value}`);
+			throw new Error(`Card value must be from ${Card.MIN_VALUE} to ${Card.MAX_VALUE}, received ${value}`);
 		}
 		this.value = value;
 	}
