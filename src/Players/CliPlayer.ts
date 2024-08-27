@@ -84,8 +84,8 @@ export class CliPlayer extends Player {
 	/**
 	 * @returns The pointing emoji for the given direction.
 	 */
-	private static point(direction: Direction): '👆' | '👇' {
-		return direction === Direction.Up ? '👆' : '👇';
+	private static point(direction: Direction): '↑' | '↓' {
+		return direction === Direction.Up ? '↑' : '↓';
 	}
 
 	/** Encodes and prints to stdout. */
