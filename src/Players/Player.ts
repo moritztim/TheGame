@@ -1,4 +1,4 @@
-import { Card, CardMatchError, Slot, Game } from "../mod.ts";
+import { Card, CardMatchError, Slot, Game, EmptyStackError } from "../mod.ts";
 export abstract class Player {
 	protected hand: Card[];
 
@@ -17,8 +17,9 @@ export abstract class Player {
 		for (let i = 0; i < cards; i++) {
 			try {
 				this.hand.push(game.drawPile.pop());
-			} catch (_) {
-				break;
+			} catch (error) {
+				if (error instanceof EmptyStackError) break
+				throw error
 			}
 		}
 	}
