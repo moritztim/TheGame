@@ -6,7 +6,8 @@ while (true) {
 	game.slots.forEach((slot) => {
 		slot.push(new Card(Math.floor(Math.random() * (Card.MAX_VALUE - Card.MIN_VALUE + 1)) + Card.MIN_VALUE));
 	});
-	game.play();
+	await game.play();
+	console.log(game.result);
 	//wait for space press in the stdin
 	await new Promise((resolve) => {
 		Deno.stdin.read(new Uint8Array(1)).then(resolve);

@@ -68,11 +68,11 @@ export class Game {
 
 
 	/** Play an entire game */
-	play(): Result {
+	async play(): Promise<Result> {
 		while (true) {
 			try {
 				for (const player of this.#players) {
-					player.play(this);
+					await player.play(this);
 				}
 			} catch (error) {
 				if (error instanceof CanNotPlayError) break;

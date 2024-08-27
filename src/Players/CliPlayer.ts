@@ -18,18 +18,13 @@ export class CliPlayer extends Player {
 
 	override play(game: Game): Promise<void> {
 		super.play(game);
-
-		if (this.playableCards(game).length === 0) {
-			throw new CanNotPlayError();
-		}
-
 		let out = '';
 
 		out += CliPlayer.NEW_LINE;
 		out += 'Slots' + CliPlayer.NEW_LINE;
 		game.slots.forEach((slot) => {
 			const digits = Card.MAX_VALUE.toString().length; // The amount of space to reserve for each slot
-			out += `${' '.repeat(digits - 1)}${CliPlayer.point(slot.direction)}${' '.repeat(digits - 1)}` // Pointing emoji with padding
+			out += `${' '.repeat(digits - 1)}${CliPlayer.point(slot.direction)} ${' '.repeat(digits - 1)}` // Pointing emoji with padding
 		});
 
 		out += CliPlayer.NEW_LINE;
@@ -51,6 +46,9 @@ export class CliPlayer extends Player {
 		this.print(out);
 
 		return new Promise((resolve) => {
+			if (this.playableCards(game).length === 0) {
+				throw new CanNotPlayError();
+			}
 			resolve();
 		});
 	}
