@@ -21,11 +21,11 @@ export class Game {
 	drawPile: DrawPile;
 	/** Slots to play cards on */
 	slots: [Slot, Slot, Slot, Slot];
-	private players: Player[];
+	#players: Player[];
 
 	constructor(players: Player[]) {
 		if (players.length > Game.MAX_PLAYERS) { throw new Error(`Player limit (${Game.MAX_PLAYERS}) exceeded`); } // prevent overfill
-		this.players = players;
+		this.#players = players;
 		this.handSize = Game.HAND_SIZES.get(players.length) || Game.HAND_SIZES.get(Game.HAND_SIZES.size) as number // get the hand size for the player count (or the last one if it doesn't exist)
 
 		this.drawPile = new DrawPile();
@@ -45,12 +45,12 @@ export class Game {
 	}
 
 	get players(): Player[] {
-		return this.players;
+		return this.#players;
 	}
 
 	/** Play an entire game */
 	play(): void {
-		for (const player of this.players) {
+		for (const player of this.#players) {
 			player.play(this);
 		}
 	}
