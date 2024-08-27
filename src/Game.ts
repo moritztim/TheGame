@@ -8,12 +8,6 @@ export class Game {
 	// NOLI SE TANGERE
 	/** Maximum player count */
 	static readonly MAX_PLAYERS = 5;
-	/** Hand sizes mapped to player counts */
-	static readonly HAND_SIZES = new Map([
-		[1, 8],
-		[2, 7],
-		[3, 6] // 3 and above are the same
-	]);
 
 	/** Cards each player starts each round with (if there's enough cards in the @see Stack) */
 	readonly handSize: number;
@@ -26,7 +20,7 @@ export class Game {
 	constructor(players: Player[]) {
 		if (players.length > Game.MAX_PLAYERS) { throw new Error(`Player limit (${Game.MAX_PLAYERS}) exceeded`); } // prevent overfill
 		this.#players = players;
-		this.handSize = Game.HAND_SIZES.get(players.length) || Game.HAND_SIZES.get(Game.HAND_SIZES.size) as number // get the hand size for the player count (or the last one if it doesn't exist)
+		this.handSize = 9 - Math.max(players.length, 3); // 8, 7, 6
 
 		this.drawPile = new DrawPile();
 
