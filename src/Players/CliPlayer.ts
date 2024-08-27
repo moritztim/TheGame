@@ -1,4 +1,4 @@
-import { Card, Slot, Direction, Game, Player } from '../mod.ts';
+import { Card, Slot, Direction, Game, Player, CanNotPlayError } from '../mod.ts';
 import { brightBlack } from "https://deno.land/std@0.182.0/fmt/colors.ts";
 // types
 
@@ -18,6 +18,10 @@ export class CliPlayer extends Player {
 
 	override play(game: Game): Promise<void> {
 		super.play(game);
+
+		if (this.playableCards(game).length === 0) {
+			throw new CanNotPlayError();
+		}
 
 		let out = '';
 

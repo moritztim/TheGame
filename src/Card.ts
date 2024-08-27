@@ -3,6 +3,8 @@ export class Card extends Object {
 	static readonly MAX_VALUE = 99;
 	/** Minimum value of a card */
 	static readonly MIN_VALUE = 2;
+	/** Count of cards in a deck */
+	static readonly COUNT = Card.MAX_VALUE - Card.MIN_VALUE + 1;
 
 	readonly value: number;
 

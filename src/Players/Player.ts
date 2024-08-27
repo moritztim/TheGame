@@ -1,11 +1,27 @@
 import { Card, CardMatchError, Slot, Game, EmptyStackError } from "../mod.ts";
+
+export class CanNotPlayError extends Error {
+	constructor() {
+		super("Can not play");
+	}
+}
+
 export abstract class Player {
 	protected hand: Card[];
+	get handSize() {
+		return this.hand.length;
+	}
 
 	constructor() {
 		this.hand = [];
 	}
 
+	/**
+	 * Play a turn in the {@link game}
+	 * @param game The game to play in
+	 * @throws {CanNotPlayError} If the player can not put any cards on the board
+	 * @returns A promise that resolves when the turn is done
+	 */
 	play(game: Game): Promise<void> {
 		this.draw(this.hand.length - game.handSize, game)
 		return new Promise((resolve) => {

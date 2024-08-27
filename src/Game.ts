@@ -1,4 +1,17 @@
-import { DrawPile, Player, Direction, Slot } from './mod.ts';
+import { Card } from './Card.ts';
+import { DrawPile, Player, Direction, Slot, CanNotPlayError } from './mod.ts';
+
+/**
+ * Represents the result of a game
+ */
+type Result = {
+	/** Total cards - cards still in hand(s) */
+	score: number;
+	/** Whether the result is "excellent" */
+	excellent: boolean;
+	/** If all 98 cards were played, you beat the game. */
+	beat: boolean;
+};
 
 /**
  * The Game
@@ -8,6 +21,8 @@ export class Game {
 	// NOLI SE TANGERE
 	/** Maximum player count */
 	static readonly MAX_PLAYERS = 5;
+	/** Minimum score to achieve a "excellent" game */
+	static readonly EXCELLENT_THRESHOLD = 90;
 
 	/** Cards each player starts each round with (if there's enough cards in the @see Stack) */
 	readonly handSize: number;
@@ -42,10 +57,28 @@ export class Game {
 		return this.#players;
 	}
 
-	/** Play an entire game */
-	play(): void {
-		for (const player of this.#players) {
-			player.play(this);
+	get result(): Result {
+		const score = Card.COUNT - this.#players.reduce((acc, player) => acc + player.handSize, 0);
+		return {
+			score: score,
+			excellent: score > Game.EXCELLENT_THRESHOLD,
+			beat: score != 0
 		}
+	}
+
+
+	/** Play an entire game */
+	play(): Result {
+		while (true) {
+			try {
+				for (const player of this.#players) {
+					player.play(this);
+				}
+			} catch (error) {
+				if (error instanceof CanNotPlayError) break;
+				else throw error;
+			}
+		}
+		return this.result;
 	}
 }
