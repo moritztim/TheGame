@@ -1,4 +1,5 @@
 import { Card, CardMatchError, Slot, Game, EmptyStackError } from "../mod.ts";
+import { Action, Turn } from "../Turn.ts";
 
 export class CanNotPlayError extends Error {
 	constructor() {
@@ -8,28 +9,24 @@ export class CanNotPlayError extends Error {
 
 export abstract class Player {
 	protected hand: Card[];
-	get handSize() {
+	@sealed get handSize() {
 		return this.hand.length;
 	}
+	active: boolean = false;
 
 	constructor() {
 		this.hand = [];
 	}
 
 	/**
-	 * Play a turn in the {@link game}
+	 * Play a card
 	 * @param game The game to play in
 	 * @throws {CanNotPlayError} If the player can not put any cards on the board
 	 * @returns A promise that resolves when the turn is done
 	 */
-	play(game: Game): Promise<void> {
-		this.draw(game.handSize - this.handSize, game);
-		return new Promise((resolve) => {
-			resolve();
-		});
-	}
+	abstract play(game: Game): Promise<Action>
 
-	protected draw(cards: number, game: Game) {
+	@sealed draw(cards: number, game: Game) {
 		for (let i = 0; i < cards; i++) {
 			try {
 				this.hand.push(game.drawPile.pop());
@@ -38,9 +35,10 @@ export abstract class Player {
 				throw error
 			}
 		}
+		this.active = this.hand.length > 0;
 	}
 
-	protected matches(slot: Slot): Card[] {
+	@sealed protected matches(slot: Slot): Card[] {
 		const top = slot.peek();
 		if (top == null) {
 			return this.hand;
@@ -60,11 +58,16 @@ export abstract class Player {
 		);
 	}
 
-	protected pushableSlots(game: Game): Slot[] {
+	@sealed protected pushableSlots(game: Game): Slot[] {
 		return game.slots.filter((slot) => this.matches(slot).length > 0);
 	}
-	protected playableCards(game: Game, pushableSlots?: Slot[]): Card[] {
+	@sealed protected playableCards(game: Game, pushableSlots?: Slot[]): Card[] {
 		pushableSlots ??= this.pushableSlots(game);
 		return pushableSlots.flatMap((slot) => this.matches(slot));
 	}
+}
+
+function sealed(target: (...args: any[]) => any, _context: any) {
+	Object.seal(target);
+	Object.seal(target.prototype);
 }

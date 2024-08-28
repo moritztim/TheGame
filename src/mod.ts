@@ -5,3 +5,4 @@ export * from './DrawPile.ts';
 export * from './Slot.ts';
 export * from './Players/mod.ts';
 export * from './Game.ts';
+export * from './Turn.ts';
