@@ -26,6 +26,12 @@ export abstract class Player {
 	 */
 	abstract play(game: Game): Promise<Action>
 
+	@sealed say(players: Player[], message: string) {
+		players.forEach((player) => player.hear(message));
+	}
+
+	abstract hear(message: string): void
+
 	@sealed draw(cards: number, game: Game) {
 		for (let i = 0; i < cards; i++) {
 			try {
