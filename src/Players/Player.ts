@@ -1,5 +1,5 @@
 import { Card, CardMatchError, Slot, Game, EmptyStackError } from "../mod.ts";
-import { Action, Turn } from "../Turn.ts";
+import { Action } from "../Turn.ts";
 
 export class CanNotPlayError extends Error {
 	constructor() {
