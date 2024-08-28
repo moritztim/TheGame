@@ -73,7 +73,15 @@ export abstract class Player {
 	}
 }
 
-function sealed(target: (...args: any[]) => any, _context: any) {
-	Object.seal(target);
-	Object.seal(target.prototype);
+// deno-lint-ignore ban-types
+function sealed<T extends Function>(
+	_target: T,
+	context: ClassMethodDecoratorContext | ClassGetterDecoratorContext | ClassSetterDecoratorContext
+): T | void {
+	context.addInitializer(function () {
+		Object.defineProperty(this, context.name, {
+			configurable: false,
+			writable: false
+		});
+	});
 }
