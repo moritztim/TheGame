@@ -3,7 +3,15 @@ import { Game } from "./Game.ts";
 import { CanNotPlayError } from "./Players/Player.ts";
 import { Player } from "./mod.ts";
 
+
+export class DoubleExecutionError extends Error {
+	constructor() {
+		super("Double execution of action");
+	}
+}
+
 export class Action {
+	executed: boolean = false;
 	constructor(
 		public readonly stackIndex: number,
 		public readonly card: Card,
@@ -16,7 +24,11 @@ export class Action {
 	}
 
 	execute() {
+		if (this.executed) {
+			throw new DoubleExecutionError();
+		}
 		this.game.slots[this.stackIndex].push(this.card);
+		this.executed = true;
 	}
 }
 
