@@ -8,15 +8,11 @@ export class CanNotPlayError extends Error {
 }
 
 export abstract class Player {
-	protected hand: Card[];
+	protected readonly hand: Card[] = [];
 	@sealed get handSize() {
 		return this.hand.length;
 	}
 	active: boolean = false;
-
-	constructor() {
-		this.hand = [];
-	}
 
 	/**
 	 * Play a card
