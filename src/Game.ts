@@ -32,10 +32,16 @@ export class Game {
 	slots: [Slot, Slot, Slot, Slot];
 	#players: Player[];
 
-	constructor(players: Player[]) {
+	constructor(
+		players: Player[],
+		public readonly difficulty: {
+			decreaseHandSize: boolean;
+			increaseCardRequirement: boolean;
+		}
+	) {
 		if (players.length > Game.MAX_PLAYERS) { throw new Error(`Player limit (${Game.MAX_PLAYERS}) exceeded`); } // prevent overfill
 		this.#players = players;
-		this.handSize = 9 - Math.max(players.length, 3); // 8, 7, 6
+		this.handSize = 9 - Number(difficulty.decreaseHandSize) - Math.max(players.length, 3); // 8, 7, 6
 
 		this.drawPile = new DrawPile();
 

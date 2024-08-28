@@ -31,7 +31,7 @@ export class Turn {
 	}
 
 	private get cardsToPlay() {
-		return this.game.drawPile.length === 0 ? 1 : Turn.CARDS_TO_PLAY;
+		return this.game.drawPile.length === 0 ? 1 : (Turn.CARDS_TO_PLAY + Number(this.game.difficulty.increaseCardRequirement));
 	}
 
 	play() {
