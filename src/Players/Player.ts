@@ -7,6 +7,32 @@ export class CanNotPlayError extends Error {
 	}
 }
 
+export class IllegalMessageError extends Error {
+	constructor() {
+		super("Relating concrete numbers in any way is strictly forbidden."); // quote from the rules
+	}
+}
+
+type MessageSegment = string | Slot;
+type SlotRating = {
+	severity?: number
+	smallMove?: boolean
+};
+
+type SlotRatings = [SlotRating, SlotRating, SlotRating, SlotRating];
+
+class Message {
+	constructor(segments: MessageSegment[]);
+	constructor(slotRatings: SlotRatings);
+	constructor(public content: MessageSegment[] | SlotRatings) {
+		if (!(content.length && content[0] instanceof Slot)) {
+			if (content.some((segment) => typeof segment === "string" && !Number.isNaN(parseInt(segment)))) {
+				throw new IllegalMessageError();
+			}
+		}
+	}
+}
+
 export abstract class Player {
 	protected readonly hand: Card[] = [];
 	@sealed get handSize() {
@@ -22,11 +48,11 @@ export abstract class Player {
 	 */
 	abstract play(game: Game): Promise<Action>
 
-	@sealed say(players: Player[], message: string) {
+	@sealed say(players: Player[], message: Message) {
 		players.forEach((player) => player.hear(message));
 	}
 
-	abstract hear(message: string): void
+	abstract hear(message: Message): void
 
 	@sealed draw(cards: number, game: Game) {
 		for (let i = 0; i < cards; i++) {
