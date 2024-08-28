@@ -1,6 +1,5 @@
 import { Card } from "./Card.ts";
 import { Game } from "./Game.ts";
-import { CanNotPlayError } from "./Players/Player.ts";
 import { Player } from "./mod.ts";
 
 
