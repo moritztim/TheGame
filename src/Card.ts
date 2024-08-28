@@ -6,6 +6,9 @@ export class Card extends Object {
 	/** Count of cards in a deck */
 	static readonly COUNT = Card.MAX_VALUE - Card.MIN_VALUE + 1;
 
+	/** Padding for the string representation */
+	static readonly PADDING = '0';
+
 	readonly value: number;
 
 	constructor(value: number) {
@@ -20,7 +23,7 @@ export class Card extends Object {
 	 * @returns a string representation of the card with universal padding
 	 */
 	override toString(): string {
-		return `[${this.value.toString().padStart(Card.MAX_VALUE.toString().length, ' ')}]`; // Pad with spaces to make all cards the same length
+		return `[${this.value.toString().padStart(Card.MAX_VALUE.toString().length, Card.PADDING)}]`; // Pad with spaces to make all cards the same length
 	}
 
 	override valueOf(): number {
